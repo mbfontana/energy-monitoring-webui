@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  background-color: #151515;
+  color: white;
+  min-height: 100vh;
+  p {
+    margin: 0;
+  }
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #151515;
+}
+::-webkit-scrollbar-thumb {
+  background: #868686;
+  border-radius: 40px;
+}
+
+.container {
+  max-width: 1320px;
+}
