@@ -12,7 +12,7 @@ export type ApplianceConsumption = {
   id: number;
   name: string;
   on: boolean;
-  lastTimeOn: Date;
+  lastTimeOn: string;
   power: number;
   consumption: {
     daily: Consumption;

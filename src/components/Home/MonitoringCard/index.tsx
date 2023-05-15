@@ -8,7 +8,6 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 const MonitoringCard = ({ id, name }: Appliance) => {
   const [data, setData] = useState<ApplianceConsumption | null>(null);
   const [error, setError] = useState<any>(null);
-  const [color, setColor] = useState("red");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +19,7 @@ const MonitoringCard = ({ id, name }: Appliance) => {
       }
     };
     fetchData();
-    const intervalId = setInterval(fetchData, 2000);
+    const intervalId = setInterval(fetchData, 5000);
     return () => clearInterval(intervalId);
   }, [id]);
 
@@ -38,36 +37,55 @@ const MonitoringCard = ({ id, name }: Appliance) => {
       <div className={styles.line}>
         <span
           className={styles.onBtn}
-          style={{ backgroundColor: data.on ? "green" : "red" }}
+          style={{ backgroundColor: data.on ? "#7ED957" : "#FF2D2D" }}
         />
         <p className={styles.name}>{data.name}</p>
       </div>
 
-      <TitledIcon
-        text={String(data.lastTimeOn)}
-        icon="/"
-        alt="Last Time On Icon"
-      />
-      
-      <p>{String(data.lastTimeOn)}</p>
-
-      <div className={styles.line}>
-        <p className={styles.title}>Average Consumption: </p>
-        <p className={styles.data}>{data.power}</p>
+      <div className={styles.titledIcon}>
+        <img alt="Clock Icon" src="icons/clock.svg" className={styles.icon} />
+        <p>{`${data.lastTimeOn.split("T")[0]}  ${data.lastTimeOn.slice(
+          11,
+          19
+        )} UTC`}</p>
       </div>
 
-      <p>Total Consumption</p>
-      <div className={styles.line}>
-        <p className={styles.title}>Daily: </p>
-        <p className={styles.data}>{`${data.consumption.daily.total} kW/h`}</p>
-        <p className={styles.title}>Monthly: </p>
-        <p
-          className={styles.data}
-        >{`${data.consumption.monthly.total} kW/h`}</p>
+      <div className={styles.titledIcon}>
+        <img alt="Bolt Icon" src="icons/bolt.svg" className={styles.icon} />
+        <p className={styles.title}>Average Power: </p>
+        <p className={styles.data}>{`${(data.power / 1000).toFixed(2)} kW`}</p>
       </div>
 
-      <p>Time Connected</p>
-      <div className={styles.line}>
+      <div className={styles.titledIcon}>
+        <img alt="Plug Icon" src="icons/plug.svg" className={styles.icon} />
+        <p className={styles.title}>Daily Consumption:</p>
+        <p className={styles.data}>{`${(
+          data.consumption.daily.total / 1000
+        ).toFixed(2)} kW/h`}</p>
+      </div>
+
+      <div className={styles.titledIcon}>
+        <img
+          alt="Calendar Icon"
+          src="icons/calendar.svg"
+          className={styles.icon}
+        />
+        <p className={styles.title}>Monthly Consumption:</p>
+        <p className={styles.data}>{`${(
+          data.consumption.monthly.total / 1000
+        ).toFixed(2)} kW/h`}</p>
+      </div>
+
+      <div className={styles.titledIcon}>
+        <img
+          alt="Hourglass Icon"
+          src="icons/hourglass.svg"
+          className={styles.icon}
+        />
+        <p className={styles.title}>Time Connected</p>
+      </div>
+
+      <div className={styles.line} style={{ marginLeft: "24px" }}>
         <p className={styles.title}>Daily: </p>
         <p
           className={styles.data}
@@ -82,12 +100,3 @@ const MonitoringCard = ({ id, name }: Appliance) => {
 };
 
 export default MonitoringCard;
-
-const TitledIcon = (text: string, icon: string, alt: string) => {
-  return (
-    <div>
-      <img src={icon} alt={alt} />
-      <p>{text}</p>
-    </div>
-  );
-};
